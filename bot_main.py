@@ -2,6 +2,7 @@ from config import TOKEN
 from config import questions
 from config import options
 
+
 import telebot
 import logging
 import sys
@@ -42,7 +43,6 @@ def tbot(token):
 
 
 # -------------------------
-
 
     @bot.message_handler()
     def starttest(message):  # Название функции не играет никакой роли
@@ -96,6 +96,10 @@ def tbot(token):
         print(question_num)
 
         if question_num == 11:
+
+            all_user_info = " "
+            usid = " "
+
             print('quiz ended')
 
             result = display_score(guesses=guesses)
@@ -106,13 +110,15 @@ def tbot(token):
                 result), reply_markup=remover)
 
             bot.send_message(
-                message.chat.id, 'Не является инвест рекомендацией, данный тест составлен на базе мнения разработчиков')
+                message.chat.id, 'Не является инвестиционной рекомендацией, данный тест составлен на базе мнения разработчиков')
 
-            all_user_info = str(message.from_user.first_name + '-' +
-                                message.from_user.last_name + '-' + message.from_user.username)
+            if message.from_user.last_name != None and message.from_user.username != None and usid != None:
+                all_user_info = message.from_user.first_name + '-' + \
+                    message.from_user.last_name + '-' + message.from_user.username
             usid = message.chat.id
             gu_str = str(guesses)
 
+            print(usid, gu_str, all_user_info)
             add_to_bd(usid, gu_str, all_user_info)
 
             all_user_info = None
